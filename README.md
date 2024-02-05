@@ -1,4 +1,4 @@
-# Bulletin Board
+# Book-Review management system
 
 This repository holds the code for a book review management system made using FastAPI.
 Below-mentioned are the features of the application:
