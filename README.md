@@ -35,10 +35,10 @@ Below-mentioned are the features of the application:
 # How to run the application
 
 ## Method 1:
-- via entrypoint.sh file
+- via make: `make`
 
 ## Method 2:
-- via Makefile: `make container`
+- via docker: `make container`
 
 ## Method 3:
 - via command line: `uvicorn main:app --port 8000`
