@@ -1,12 +1,15 @@
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine, StaticPool
+from sqlalchemy import create_engine
+from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import sessionmaker
+
+from db_handler import Base
 from main import app, get_db
 
 client = TestClient(app)
 
 
-DATABASE_URL = "sqlite:///:memory:"
+DATABASE_URL = "sqlite://"
 engine = create_engine(
     DATABASE_URL,
     connect_args={
@@ -15,6 +18,7 @@ engine = create_engine(
     poolclass=StaticPool,
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base.metadata.create_all(bind=engine)
 
 
 # Dependency to override the get_db dependency in the main app
@@ -43,8 +47,8 @@ def test_add_new_book():
 def test_get_all_books2():
     response = client.get("/books/all")
     assert response.status_code == 200
-    assert response.json() == {"book_id": 1, "title": "book1", "author": "rishabh",
-                               "publication_year": 2024, "price": 0}
+    assert response.json() == [{"book_id": 1, "title": "book1", "author": "rishabh",
+                               "publication_year": 2024, "price": 0}]
 
 
 def test_add_new_review():
